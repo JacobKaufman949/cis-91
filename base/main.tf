@@ -1,10 +1,10 @@
 
 variable "credentials_file" { 
-  default = "../secrets/cis-91.key" 
+  default = "/home/jac5499/cis91-project-5b61001b6d75.json"
 }
 
 variable "project" {
-  default = "your-project-here"
+  default = "cis91-project"
 }
 
 variable "region" {
@@ -57,7 +57,7 @@ resource "google_compute_firewall" "default-firewall" {
   network = google_compute_network.vpc_network.name
   allow {
     protocol = "tcp"
-    ports = ["22"]
+    ports = ["22", "80"]
   }
   source_ranges = ["0.0.0.0/0"]
 }
