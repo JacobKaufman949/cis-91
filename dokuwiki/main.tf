@@ -49,6 +49,11 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+
+  attached_disk {
+    source = google_compute_disk.dokuwiki.self_link
+    device_name = "dokuwiki"
+  }
 }
 
 resource "google_compute_firewall" "default-firewall" {
@@ -61,9 +66,14 @@ resource "google_compute_firewall" "default-firewall" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-resource "google_compute_disk" "default" {
-  name = "data"
-  
+resource "google_compute_disk" "dokuwiki" {
+  name  = "dokuwiki-data"
+  type  = "pd-ssd"
+  size = "128"
+  labels = {
+    environment = "dev"
+  }
+  physical_block_size_bytes = 4096
 }
 
 output "external-ip" {

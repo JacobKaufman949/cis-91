@@ -12,6 +12,23 @@
           - php
           - php-xml
     #run command - sudo wget https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+    #sudo chown www-data:www-data dokuwiki-2022-07-31a/
+    #sudo mkfs.ext4 /dev/disk/by-id/google-dokuwiki
+    #/etc/fstab - where to put mount config
+    # ansible-playbook -i ../inventory.gcp.yaml --private-key ~/.ssh/google_compute_engine playbook.yaml 
+    - name: Create a ext4 filesystem on /dev/sdb1 (data disk for dokuwiki)
+      filesystem:
+        fstype: ext4
+        dev: /dev/disk/by-id/google-dokuwiki
+  
+    - name: Mount data disk for dokuwiki
+      ansible.posix.mount:
+        path: /var/www/html
+        src: /dev/disk/by-id/google-dokuwiki
+        fstype: ext4
+        opts: defaults
+        state: present
+
     - name: Unarchive dokuwiki
       ansible.builtin.unarchive:
         src: dokuwiki-stable.tgz
