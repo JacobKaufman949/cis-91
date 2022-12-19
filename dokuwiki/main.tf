@@ -30,6 +30,26 @@ provider "google" {
   project = var.project
 }
 
+/* resource "google_service_account" "dokuwiki-service-account" {
+  account_id   = "dokuwiki-service-account"
+  display_name = "dokuwiki-service-account"
+  description = "Service account for dokuwiki"
+}
+
+resource "google_project_iam_member" "project_member" {
+  role = "roles/compute.viewer"
+  member = "serviceAccount:${google_service_account.dokuwiki-service-account.email}"
+} */
+
+data "google_iam_policy" "admin" {
+  binding {
+    role = "roles/storage.objectadmin"
+    members = [
+      "user:jdkaufman00@gmail.com",
+    ]
+  }
+}
+
 resource "google_compute_network" "vpc_network" {
   name = "dokuwiki-network"
 }
@@ -54,6 +74,11 @@ resource "google_compute_instance" "vm_instance" {
     source = google_compute_disk.dokuwiki.self_link
     device_name = "dokuwiki"
   }
+
+   /* service_account {
+    email  = google_service_account.dokuwiki-service-account.email
+    scopes = ["cloud-platform"]
+  } */
 }
 
 resource "google_compute_firewall" "default-firewall" {

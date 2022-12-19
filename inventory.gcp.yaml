@@ -1,0 +1,13 @@
+plugin: gcp_compute
+projects:
+  - cis91-project
+auth_kind: serviceaccount
+service_account_file: /home/jac5499/.config/gcloud/application_default_credentials.json
+keyed_groups:
+  - prefix: gcp
+    key: labels
+  - prefix: tags
+    key: tags
+#requires ansible.cfg to have the following:
+#[inventory]
+#enable_plugins = gcp_compute
