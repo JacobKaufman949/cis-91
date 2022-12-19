@@ -1,5 +1,5 @@
 # Cabrillo CIS-91 Public Course Files 
 
-This is a work in progress.
+Coursework from throughout the fall semester 2022
 
 Author: Jacob Kaufman
